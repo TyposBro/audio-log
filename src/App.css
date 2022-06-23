@@ -12,4 +12,10 @@
   font-size: 25px;
   border-radius: 50%;
   border: none;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.rec {
+  z-index: 1;
 }

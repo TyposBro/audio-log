@@ -5,6 +5,7 @@ import "react-voice-recorder/dist/index.css";
 import "./App.css";
 
 function App() {
+  const timestamps = new Array();
   const [rec, setRec] = useState({
     url: null,
     blob: null,
@@ -17,16 +18,17 @@ function App() {
   });
 
   const handleAudioStop = (data) => {
-    console.log(data);
-    setRec({ audioDetails: data });
+    console.log({ ...data, timestamps });
+    setRec(data);
   };
 
   const handleAudioUpload = (file) => {
     console.log(file);
   };
 
+  let sec = 0;
   const handleCountDown = (data) => {
-    console.log(data);
+    sec += 100;
   };
   const handleReset = () => {
     const reset = {
@@ -39,21 +41,27 @@ function App() {
         s: 0,
       },
     };
-    setRec({ audioDetails: reset });
+    setRec(reset);
+  };
+
+  const capture = () => {
+    console.log(sec);
+    timestamps.push(sec);
+    console.log(timestamps);
   };
   return (
     <div className="App">
-      <FaStopwatch className="btn" />
+      <FaStopwatch className="btn" onClick={capture} />
 
       <Recorder
         record={true}
         hideHeader
-        audioURL={rec.audioDetails.url}
+        audioURL={rec.url}
         showUIAudio
-        handleAudioStop={(data) => handleAudioStop(data)}
-        handleAudioUpload={(data) => handleAudioUpload(data)}
-        handleCountDown={(data) => handleCountDown(data)}
-        handleReset={() => handleReset()}
+        handleAudioStop={handleAudioStop}
+        handleAudioUpload={handleAudioUpload}
+        handleCountDown={handleCountDown}
+        handleReset={handleReset}
         mimeTypeToUseWhenRecording={`audio/webm`} // For specific mimetype.
       />
     </div>
