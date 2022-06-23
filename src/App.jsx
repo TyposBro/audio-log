@@ -1,18 +1,18 @@
 import { useState } from "react";
 import { Recorder } from "react-voice-recorder";
+import { FaStopwatch } from "react-icons/fa";
 import "react-voice-recorder/dist/index.css";
+import "./App.css";
 
 function App() {
   const [rec, setRec] = useState({
-    audioDetails: {
-      url: null,
-      blob: null,
-      chunks: null,
-      duration: {
-        h: 0,
-        m: 0,
-        s: 0,
-      },
+    url: null,
+    blob: null,
+    chunks: null,
+    duration: {
+      h: 0,
+      m: 0,
+      s: 0,
     },
   });
 
@@ -43,9 +43,11 @@ function App() {
   };
   return (
     <div className="App">
+      <FaStopwatch className="btn" />
+
       <Recorder
         record={true}
-        title={"New recording"}
+        hideHeader
         audioURL={rec.audioDetails.url}
         showUIAudio
         handleAudioStop={(data) => handleAudioStop(data)}
