@@ -1,45 +1,61 @@
-import { useState } from 'react'
-import logo from './logo.svg'
-import './App.css'
+import { useState } from "react";
+import { Recorder } from "react-voice-recorder";
+import "react-voice-recorder/dist/index.css";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [rec, setRec] = useState({
+    audioDetails: {
+      url: null,
+      blob: null,
+      chunks: null,
+      duration: {
+        h: 0,
+        m: 0,
+        s: 0,
+      },
+    },
+  });
 
+  const handleAudioStop = (data) => {
+    console.log(data);
+    setRec({ audioDetails: data });
+  };
+
+  const handleAudioUpload = (file) => {
+    console.log(file);
+  };
+
+  const handleCountDown = (data) => {
+    console.log(data);
+  };
+  const handleReset = () => {
+    const reset = {
+      url: null,
+      blob: null,
+      chunks: null,
+      duration: {
+        h: 0,
+        m: 0,
+        s: 0,
+      },
+    };
+    setRec({ audioDetails: reset });
+  };
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Hello Vite + React!</p>
-        <p>
-          <button type="button" onClick={() => setCount((count) => count + 1)}>
-            count is: {count}
-          </button>
-        </p>
-        <p>
-          Edit <code>App.jsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {' | '}
-          <a
-            className="App-link"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-        </p>
-      </header>
+      <Recorder
+        record={true}
+        title={"New recording"}
+        audioURL={rec.audioDetails.url}
+        showUIAudio
+        handleAudioStop={(data) => handleAudioStop(data)}
+        handleAudioUpload={(data) => handleAudioUpload(data)}
+        handleCountDown={(data) => handleCountDown(data)}
+        handleReset={() => handleReset()}
+        mimeTypeToUseWhenRecording={`audio/webm`} // For specific mimetype.
+      />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
